@@ -1,0 +1,598 @@
+---
+title: "Untitled"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+```{r}
+summary(anketveri)
+n <- anketveri1
+hist(n$Yas, n$s18)
+shapiro.test(anketveri$Yas)
+shapiro.test(anketveri$s13)
+boxplot(n$Yas,n$s1,n$s2,n$s3,n$s6,n$s7,n$s8,n$s9,n$s10,n$s11,n$s12,n$s13,n$s14,n$s15,n$s16,n$s17,n$s18)
+library(tidyverse)
+library(funModeling)
+library(car)
+df <- anketveri
+
+wilcox.test(df$ögrenim, df$s17)
+
+  library(Hmisc)
+library(ggpubr)
+
+correlation_table(df)
+library(PerformanceAnalytics)
+
+cor(df$s6, df$s7)
+cor(df$s4,df$s5)
+cor(df$s10,df$s13)
+cor(df$s12,df$s15)
+cor(df$s12,df$s13)
+a <- as.data.frame(cor(anketveri1))
+b <- 
+
+
+b
+chart.Correlation(df, histogram = TRUE, pch = 19)
+
+for (i in 1:5) [
+  
+  print(i^3)
+
+  ]
+
+
+for(i,j in 1:22) {
+  for(j in 1:22) [
+    if (a[i,j] => 0.20) [
+      b <- as.data.frame(a[i,j])
+    ]
+  ]
+}
+
+for(i in 1:5) {
+  
+  print(i^3)
+  
+}
+
+chart.Correlation(anketver1)
+
+
+```
+
+
+```{r}
+install.packages("caTools") #sürüm sorunu
+library(caTools)
+ada(anketveri)
+install.packages("Cubist")
+install.packages("RWeka")
+install.packages("fastAdaboost")
+install.packages("adabag")
+install.packages("e1071")
+install.packages("bartMachine")
+install.packages("C50")
+install.packages("CHAID") #sürüm sorunu
+install.packages("party")
+install.packages("oblique.tree") #sürüm sorunu
+
+library(Rweka)
+library(Cubist)
+library(party)
+iris
+print(head(iris))
+
+input.dat <- iris[c(1:105),]
+
+png(file = "decision_tree.png")
+
+output.tree <- ctree(
+  Species ~ Sepal.Length + Sepal.Width + Petal.Length, 
+  data = input.dat)
+
+output.tree
+
+
+
+plot(output.tree)
+dev.off()
+
+
+
+
+
+```
+
+
+```{r}
+library(caret)
+library(tidyverse)
+library(AppliedPredictiveModeling)
+library(pls) #kismi en kucuk kareler ve pcr icin
+library(elasticnet)
+library(broom) #tidy model icin
+library(glmnet)
+library(MASS)
+library(ISLR)
+library(PerformanceAnalytics)
+library(funModeling)
+library(Matrix)
+library(dplyr)
+
+glimpse(ekono)
+summary(ekono)
+df4 <- ekono
+
+profiling_num(df4)
+sum(is.na(df4))
+
+plot(logm2 ~ log_tasıt, data = df4,
+     pch = 20, cex = 1.5, main = "Satislar vs TV Harcamalari")
+
+#logm1 ve log_ticari regresyon için uygun duruyor
+#logm1 ve log_tasıt reg için uygun
+#logm1 ve log_ihtiyac reg için uygun
+#logm1 ve log_konut reg için uygun
+
+pairs(df)
+library("ade4")
+chart.Correlation(df, histogram =  TRUE, pch = 19)
+
+#M1 ve M2 para arzının genelleştirilmiş faiz modeli
+
+#m1
+
+lm1 <- lm(logm1 ~ log_ihtiyac + log_tasıt + log_konut + log_ticari , data = df4)
+summary(lm1)
+
+#m2
+
+lm2 <- lm(logm2 ~ log_ihtiyac + log_tasıt + log_konut + log_ticari , data = df4)
+summary(lm2)
+
+
+#M1 ve M2 para arzının ihtiyac taşıt ve ticari faizler için kurulmuş model
+
+#m1
+
+lm3 <- lm(logm1 ~ log_ihtiyac + log_tasıt + log_ticari , data = df4) # anlamlı
+summary(lm3)
+
+#m2
+
+lm4 <- lm(logm2 ~ log_ihtiyac + log_tasıt + log_ticari , data = df4) # anlamlı
+summary(lm4)
+
+df5 <- data.frame(
+  log_ihtiyac = c(df4$log_ihtiyac),
+  log_tasıt = c(df4$log_ihtiyac),
+  log_ticari = c(df4$log_ticari)
+)
+chart.Correlation(df5)
+
+
+#m1 para arzı ile ihtiyac faiz oranı modeli
+
+plot(logm1 ~ log_ihtiyac, data = df,
+     pch = 20, cex = 1.5, main = "M1 para arzı ve ihtiyac faiz oranı")
+
+
+lm_model <- lm(logm1 ~ log_ihtiyac , data = df)
+summary(lm(logm1 ~ log_ihtiyac , data = df))
+
+lm_model
+head(predict(lm_model))
+
+
+#m1 para arzı ile taşıt faiz oranı modeli
+
+plot(logm1 ~ log_tasıt, data = df,
+     pch = 20, cex = 1.5, main = "M1 para arzı ve taşıt faiz oranı")
+
+lm_model1 <- lm(logm1 ~ log_tasıt , data = df)
+summary(lm(logm1 ~ log_tasıt , data = df))
+
+lm_model1
+head(predict(lm_model1))
+
+
+
+#m1 para arzı ile konut faiz oranı modeli
+
+plot(logm1 ~ log_konut, data = df,
+     pch = 20, cex = 1.5, main = "M1 para arzı ve konut faiz oranı")
+
+lm_model2 <- lm(logm1 ~ log_konut , data = df)
+summary(lm_model2)
+
+lm_model2
+head(predict(lm_model2))
+
+
+
+#m1 para arzı ile ticari faiz oranı modeli
+
+plot(logm1 ~ log_ticari, data = df,
+     pch = 20, cex = 1.5, main = "M1 para arzı ve ticari faiz oranı")
+
+lm_model3 <- lm(logm1 ~ log_ticari , data = df)
+summary(lm_model3)
+
+lm_model3
+head(predict(lm_model3))
+
+
+#m2 para arzı ile ihtiyac faiz oranı modeli
+
+plot(logm2 ~ log_ihtiyac, data = df,
+     pch = 20, cex = 1.5, main = "M2 para arzı ve ihtiyac faiz oranı")
+
+lm_model4 <- lm(logm2 ~ log_ihtiyac , data = df)
+summary(lm_model4)
+
+lm_model4
+head(predict(lm_model4))
+
+
+#m2 para arzı ile taşıt faiz oranı modeli
+
+plot(logm2 ~ log_tasıt, data = df,
+     pch = 20, cex = 1.5, main = "M2 para arzı ve taşıt faiz oranı")
+
+lm_model5 <- lm(logm2 ~ log_tasıt , data = df)
+summary(lm(logm1 ~ log_tasıt , data = df))
+
+lm_model5
+head(predict(lm_model5))
+
+
+#m2 para arzı ile konut faiz oranı modeli
+
+plot(logm2 ~ log_konut, data = df,
+     pch = 20, cex = 1.5, main = "M2 para arzı ve konut faiz oranı")
+
+lm_model6 <- lm(logm2 ~ log_konut , data = df)
+summary(lm_model6)
+
+lm_model6
+head(predict(lm_model6))
+
+
+#m2 para arzı ile ticari faiz oranı modeli
+
+plot(logm2 ~ log_ticari, data = df,
+     pch = 20, cex = 1.5, main = "M2 para arzı ve ticari faiz oranı")
+
+lm_model7 <- lm(logm2 ~ log_ticari , data = df)
+summary(lm_model7)
+
+lm_model7
+head(predict(lm_model7))
+
+
+
+
+
+```
+
+
+
+```{r}
+Iris <- read.csv('../input/Iris.csv', header = TRUE)
+attach(Iris)
+# Side-by-side box-plots
+boxplot(SepalWidthCm~Species, main = "Sepal Width")
+boxplot(PetalWidthCm~Species, main = "Petal Width")
+# Mean and SD
+tapply(SepalWidthCm, Species, mean)
+tapply(SepalWidthCm, Species, sd)
+tapply(PetalWidthCm, Species, mean)
+tapply(PetalWidthCm, Species, sd)
+# MANOVA
+Y <- cbind(SepalWidthCm,PetalWidthCm)
+Y
+fit <- manova(Y ~ Species)
+summary(fit, test ="Pillai")
+
+
+```
+
+```{r}
+
+df <- doviz_paraarzi
+df1 <- m1_eurousd
+dfb <- ekonobv
+  
+pairs(df1)
+library("ade4")
+chart.Correlation(df1, histogram =  TRUE, pch = 19)
+
+df2 <- data.frame(
+  logusde_alis = c(df1$logusde_alis) , 
+  logeuro_alis = c(df1$logeuro_alis) ,
+  logtufe = c(df1$log_tufe)
+)
+df2
+chart.Correlation(df2)
+
+df3 <- data.frame(
+  logusd_satis = c(df1$logusd_satis) ,
+  logeuro_satis = c(df1$logeuro_satis) ,
+  logtufe = c(df1$log_tufe)
+)
+df3
+chart.Correlation(df3)
+
+df4 <- data.frame(
+  loggsyh = c(dfb$loggsyh) , 
+  logtufe = c(dfb$logtufe) ,
+  logufe = c(dfb$logufe)
+)
+
+chart.Correlation(df4)
+
+
+#tufe modelleri
+
+#m1
+
+plot(logm1 ~ log_tufe , data = df1,
+     pch = 20, cex = 1.5, main = "M1 money supply and CPI")
+
+
+lm_tufe <- lm(logm1 ~ log_tufe , data = df1)
+summary(lm_tufe)
+
+lm_tufe
+head(predict(lm_tufe))
+
+#m2
+
+plot(logm2 ~ log_tufe , data = df1,
+     pch = 20, cex = 1.5, main = "M2 para arzı ve tufe")
+
+
+lm_tufe1 <- lm(logm2 ~ log_tufe , data = df1)
+summary(lm_tufe1)
+
+lm_tufe1
+head(predict(lm_tufe1))
+
+#m3
+plot(logm3 ~ log_tufe, data = df1,
+     pch = 20, cex = 1.5, main = "M3 para arzı ve tufe")
+
+
+lm_tufe2 <- lm(logm3 ~ log_tufe , data = df1)
+summary(lm_tufe2)
+
+lm_tufe2
+head(predict(lm_tufe2))
+
+
+#m1, m2, m3 para arzlarının dolar ve euro kurlarına göre çoklu logaritmik regresyon modeli
+
+#m1
+
+lm_model8 <- lm(logm1 ~ logusde_alis + logusd_satis + logeuro_alis + logeuro_satis , data = df1)
+summary(lm_model8)
+
+lm_model8
+head(predict(lm_model8))
+
+#m2
+
+lm_model9 <- lm(logm2 ~ logusde_alis + logusd_satis + logeuro_alis + logeuro_satis , data = df1)
+summary(lm_model9)
+
+lm_model9
+head(predict(lm_model9))
+
+#m3
+
+lm_model10 <- lm(logm3 ~ logusde_alis + logusd_satis + logeuro_alis + logeuro_satis , data = df1)
+summary(lm_model10)
+
+lm_model10
+head(predict(lm_model10))
+
+#sadece alışların olduğu modeller
+
+#m1
+lm_model11 <- lm(logm1 ~ logusde_alis + logeuro_alis , data = df1)
+summary(lm_model11)
+
+lm_model11
+head(predict(lm_model11))
+
+#m2
+lm_model12 <- lm(logm2 ~ logusde_alis + logeuro_alis , data = df1) # anlamlı
+summary(lm_model12)
+
+lm_model12
+head(predict(lm_model12))
+
+#m3
+lm_model13 <- lm(logm3 ~ logusde_alis + logeuro_alis , data = df1) # anlamlı
+summary(lm_model13)
+
+lm_model13
+head(predict(lm_model13))
+
+#sadece satışların olduğu modeller
+
+#m1
+lm_model14 <- lm(logm1 ~ logusd_satis + logeuro_satis , data = df1)
+summary(lm_model14)
+
+lm_model14
+head(predict(lm_model14))
+
+#m2
+lm_model15 <- lm(logm2 ~ logusd_satis + logeuro_satis , data = df1) # anlamlı
+summary(lm_model15)
+
+lm_model15
+head(predict(lm_model15))
+
+#m3
+lm_model16 <- lm(logm3 ~ logusd_satis + logeuro_satis , data = df1) # anlamlı
+summary(lm_model16)
+
+lm_model16
+head(predict(lm_model16))
+
+#m1 para arzının dolar alış ile ilişkisi
+
+plot(logm1 ~ logusde_alis , data = df,
+     pch = 20, cex = 1.5, main = "M1 money supply ve buying dollar")
+
+
+lm_model17 <- lm(logm1 ~ logusde_alis , data = df)
+summary(lm_model17)
+
+lm_model17
+head(predict(lm_model17))
+
+#m1 para arzının dolar satış ile modeli
+
+plot(logm1 ~ logusd_satis , data = df,
+     pch = 20, cex = 1.5, main = "M1 para arzı ve dolar satış fiyatları")
+
+
+lm_model18 <- lm(logm1 ~ logusd_satis , data = df)
+summary(lm_model18)
+
+lm_model18
+head(predict(lm_model18))
+
+#m1 para arzı euro alış ile modeli
+
+plot(logm1 ~ logeuro_alis , data = df,
+     pch = 20, cex = 1.5, main = "M1 para arzı ve euro alış fiyatları")
+
+
+lm_model19 <- lm(logm1 ~ logeuro_alis , data = df)
+summary(lm_model19)
+
+lm_model19
+head(predict(lm_model19))
+
+#m1 para arzının euro satış ile modeli
+
+plot(logm1 ~ logeuro_satis , data = df,
+     pch = 20, cex = 1.5, main = "M1 para arzı ve euro satış fiyatları")
+
+
+lm_model20 <- lm(logm1 ~ logeuro_alis , data = df)
+summary(lm_model20)
+
+lm_model20
+head(predict(lm_model20))
+
+#m2 para arzının dolar alış kuru etkisi modeli
+
+plot(logm2 ~ logusde_alis , data = df,
+     pch = 20, cex = 1.5, main = "M2 para arzı ve dolar alış fiyatları")
+
+
+lm_model21 <- lm(logm2 ~ logusde_alis , data = df)
+summary(lm_model21)
+
+lm_model21
+head(predict(lm_model21))
+
+#m2 para arzının dolar satış kuru etkisi modeli
+
+plot(logm2 ~ logusd_satis , data = df,
+     pch = 20, cex = 1.5, main = "M2 para arzı ve dolar satış fiyatları")
+
+
+lm_model22 <- lm(logm2 ~ logusd_satis , data = df)
+summary(lm_model22)
+
+lm_model22
+head(predict(lm_model22))
+
+#m2 para arzı euro alış kuru etkisi modeli
+
+plot(logm2 ~ logeuro_alis , data = df,
+     pch = 20, cex = 1.5, main = "M2 para arzı ve euro alış fiyatları")
+
+
+lm_model23 <- lm(logm2 ~ logeuro_alis , data = df)
+summary(lm_model21)
+
+lm_model23
+head(predict(lm_model23))
+
+#m2 para arzı euro satış kuru etkisi modeli
+
+plot(logm2 ~ logeuro_satis , data = df,
+     pch = 20, cex = 1.5, main = "M2 para arzı ve satış fiyatları")
+
+
+lm_model24 <- lm(logm2 ~ logeuro_satis , data = df)
+summary(lm_model24)
+
+lm_model24
+head(predict(lm_model24))
+
+
+
+
+
+
+
+```
+
+
+
+```{r}
+dfd <- ekono_buyuk_veri
+deneme1 <- lm(logm2 ~ loggsyh + log_ihtiyac , data = dfd)
+summary(deneme1)
+
+deneme2 <- lm(logm2 ~ logtufe + log_ihtiyac , data = dfd)
+summary(deneme2)
+
+plot(m3 ~ loggsyh , data = dfb,
+     pch = 20, cex = 1.5, main = "M3 money supply and GDP")
+
+
+
+
+```
+
+
+
+
+
